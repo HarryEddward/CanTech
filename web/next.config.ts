@@ -2,6 +2,13 @@ import {NextConfig} from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
  
 const nextConfig: NextConfig = {
+
+  // Output standalone para producción
+  output: 'standalone',
+
+  // React strict mode
+  reactStrictMode: true,
+
   images: {
     remotePatterns: [
       {
