@@ -187,7 +187,7 @@ export default function ProductsCarrousel({ products = defaultProducts }: IProdu
                 className={`h-2 rounded-full transition-all ${
                 index === getCurrentIndex() 
                     ? "w-8 bg-white" 
-                    : "w-2 bg-white/30 hover:bg-white/50"
+                    : "w-2 bg-white hover:bg-white"
                 }`}
             />
             ))}
