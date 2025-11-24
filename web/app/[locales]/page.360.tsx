@@ -19,7 +19,7 @@ export default function Home() {
   const itemsCount = products.length;
   const angleStep = 360 / itemsCount;
 
-  const getItemStyle = (index) => {
+  const getItemStyle = (index: number) => {
     const angle = (rotation + index * angleStep) % 360;
     const normalizedAngle = ((angle % 360) + 360) % 360;
     
@@ -51,7 +51,10 @@ export default function Home() {
   };
 
 
-  const handleDragEnd = (e, info) => {
+  const handleDragEnd = (
+    event: MouseEvent | TouchEvent | PointerEvent,
+    info: { offset: { x: number }, velocity: { x: number } }
+  ) => {
     const dragDistance = info.offset.x;
     const velocity = info.velocity.x;
     
