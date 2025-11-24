@@ -14,11 +14,6 @@ export default function Home() {
             </h1>
             <div className="absolute top-25 w-full bg-gradient-to-b from-slate-500 to-slate-950 h-40"/>
         </div>
-
-        <ProductsCarrousel/>
-        <ProductsCarrousel/>
-
-
       </main>
     </div>
   );
