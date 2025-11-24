@@ -14,6 +14,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  
+  
   experimental: {
     serverActions: {
       allowedOrigins: ["https://www.cantech.pro", "https://cantech.pro"],
