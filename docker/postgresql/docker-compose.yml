@@ -1,0 +1,24 @@
+
+volumes:
+  pg_primary_data_general:
+    driver: local
+
+services:
+  # PostgreSQL Primary para aplicación principal
+  postgres-primary:
+    image: bitnamilegacy/postgresql:latest
+    hostname: postgres-primary
+    environment:
+      - POSTGRESQL_USERNAME=cantechpro
+      - POSTGRESQL_PASSWORD=password
+      - POSTGRESQL_DATABASE=cantechpro-db
+    volumes:
+      - pg_primary_data_general:/bitnami/postgresql
+    ports:
+      - "5432:5432"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
