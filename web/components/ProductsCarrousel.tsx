@@ -164,7 +164,7 @@ export default function ProductsCarrousel({ products = defaultProducts }: IProdu
                             {product.name}
                         </motion.button>
                         
-                        <span className=" w-full bg-green-900 rounded-b-2xl p-3">Clickear para comprar</span>
+                        <span className=" w-full bg-green-900 rounded-b-2xl p-3 text-white">Clickear para comprar</span>
                         </motion.div>
                         
                     </motion.div>
@@ -184,7 +184,7 @@ export default function ProductsCarrousel({ products = defaultProducts }: IProdu
                 const targetRotation = -index * angleStep;
                 setRotation(targetRotation);
                 }}
-                className={`h-2 rounded-full transition-all ${
+                className={`h-2 rounded-full transition-all pointer-events-none ${
                 index === getCurrentIndex() 
                     ? "w-8 bg-white" 
                     : "w-2 bg-white hover:bg-white"
