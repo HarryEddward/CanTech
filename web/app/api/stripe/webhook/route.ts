@@ -20,8 +20,8 @@ export async function POST(req: NextRequest) {
     const body = await req.text(); // o `await buffer(req)` si usas Node.js runtime
     event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
   } catch (err) {
-    console.error(`Webhook Error: ${err.message}`);
-    return NextResponse.json({ error: err.message }, { status: 400 });
+    console.error(`Webhook Error: ${err}`);
+    return NextResponse.json({ error: err }, { status: 400 });
   }
 
   // ✅ Manejar eventos
