@@ -36,6 +36,16 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
+
+FROM base AS migrator
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY package.json ./
+COPY prisma ./prisma
+CMD ["sh", "-c", "npx prisma migrate deploy && npx prisma generate"]
+
+
+
 # Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
