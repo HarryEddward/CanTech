@@ -37,15 +37,6 @@ RUN \
   fi
 
 
-FROM base AS migrator
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY package.json ./
-COPY prisma ./prisma
-CMD ["sh", "-c", "npx prisma migrate deploy && npx prisma generate"]
-
-
-
 # Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
@@ -64,6 +55,15 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# Crear script de inicio
+RUN echo '#!/bin/sh' > /app/start.sh && \
+    echo 'set -e' >> /app/start.sh && \
+    echo 'echo "Running Prisma migrations..."' >> /app/start.sh && \
+    echo 'npx prisma migrate deploy' >> /app/start.sh && \
+    echo 'echo "Starting Next.js..."' >> /app/start.sh && \
+    echo 'exec node server.js' >> /app/start.sh && \
+    chmod +x /app/start.sh
+
 USER nextjs
 
 EXPOSE 3000
@@ -73,4 +73,5 @@ ENV PORT=3000
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/config/next-config-js/output
 ENV HOSTNAME="0.0.0.0"
-CMD ["node", "server.js"]
+
+CMD ["/app/start.sh"]
