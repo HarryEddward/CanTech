@@ -1,48 +1,36 @@
+// store/cart.ts (o donde tengas el store)
 "use client";
 
+import { Product } from "@/generated/prisma/client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-interface Item {
-  id: string;
-  title: string;
-  price: number;
-  qty: number;
-}
-
 interface CartStore {
-  items: Item[];
-  addItem: (item: Item) => void;
-  removeItem: (id: string) => void;
-  clear: () => void;
+  product: Product | null; // Ahora es un solo producto o null
+  addProduct: (product: Product) => void;
+  removeProduct: () => void; // No necesita ID, solo remueve el actual
+  clear: () => void; // Igual que remove en este caso
 }
 
 export const useCartStore = create<CartStore>()(
   persist(
-    (set, get) => ({
-      items: [],
+    (set) => ({
+      product: null, // Inicialmente vacío
 
-      addItem: (item) => {
-        const items = get().items;
-        const exists = items.find((i) => i.id === item.id);
-
-        if (exists) {
-          return set({
-            items: items.map((i) =>
-              i.id === item.id ? { ...i, qty: i.qty + item.qty } : i
-            ),
-          });
-        }
-
-        set({ items: [...items, item] });
+      addProduct: (product) => {
+        // Simplemente reemplaza el producto actual
+        set({ product: product });
       },
 
-      removeItem: (id) =>
-        set({
-          items: get().items.filter((i) => i.id !== id),
-        }),
+      removeProduct: () => {
+        // Elimina el producto actual
+        set({ product: null });
+      },
 
-      clear: () => set({ items: [] }),
+      clear: () => {
+        // Igual que remove en este contexto
+        set({ product: null });
+      },
     }),
     {
       name: "cart-storage", // localStorage key

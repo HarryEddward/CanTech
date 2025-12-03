@@ -7,6 +7,12 @@ datasource db {
   provider = "postgresql" // Change to "sqlite" if using SQLite
 }
 
+enum OrderStatus {
+  PENDING
+  DELIVERED
+  CANCELLED
+}
+
 
 model Client {
   id               String   @id @default(cuid())
@@ -26,6 +32,7 @@ model Order {
   stripePaymentId String   @unique
   amount          Int
   createdAt       DateTime @default(now())
+  status          OrderStatus  @default(PENDING)
 
   // Relación con producto
   productId       String
@@ -37,15 +44,35 @@ model Order {
 }
 
 model Product {
-  id          String   @id @default(cuid())
-  name        String
-  description String
-  price       Int
-  image       String
-  stock       Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(cuid())
+  name          String
+  description   String
+  price         Int
+  image         String
+  // Cambia 'characteristics' a JSON
+  characteristics Json // Almacena un array de objetos como [{"title": "Color", "description": "Rojo"}]
+  stock         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   // 👉 Un producto puede estar en muchos pedidos
-  orders      Order[]
+  orders        Order[]
 }
+
+/*
+[
+  "+34h de batería",
+  "IPX4",
+  "Control por tacto",
+  "Emparejamiento Dual",
+  "USB Tipo C",
+  "Bluethooth 5.4"
+]
+
+LG xBoom, lg_xboom.webp
+JBL Live Flex, jbl_live_flex.webp
+Vieta Pro Zen, vieta_pro_zen.webp
+
+Auricualres inalambricos con cancelación de ruido y resistente al agua
+
+*/
