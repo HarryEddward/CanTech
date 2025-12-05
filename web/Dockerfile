@@ -63,7 +63,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 # Tenemos dos opciones, la más segura para Dokploy (red cerrada) es instalarlo aquí
 # o copiar los node_modules completos (muy pesado).
 # Lo más ligero es instalar solo el CLI de prisma en esta capa final:
-RUN npm install prisma --no-save
+RUN npm install -g prisma
 
 # Crear script de inicio
 RUN echo '#!/bin/sh' > /app/start.sh && \
@@ -72,7 +72,7 @@ RUN echo '#!/bin/sh' > /app/start.sh && \
     # echo 'sleep 5' >> /app/start.sh && \
     echo 'echo "Running Prisma migrations..."' >> /app/start.sh && \
     # Usamos npx prisma, que ahora sí encontrará el schema en ./prisma y el binario instalado
-    echo 'npx prisma migrate deploy' >> /app/start.sh && \
+    echo 'prisma migrate deploy' >> /app/start.sh && \
     echo 'echo "Starting Next.js..."' >> /app/start.sh && \
     echo 'exec node server.js' >> /app/start.sh && \
     chmod +x /app/start.sh
