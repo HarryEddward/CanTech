@@ -3,7 +3,7 @@ import ProductsCarrousel from "@/components/client/ProductsCarrousel";
 import { WiStars } from "react-icons/wi";
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import { prisma } from '@/lib/prisma';
-import { mockProducts } from "@/config/client";
+//import { mockProducts } from "@/config/client";
 import { FaBoxOpen, FaRegEye, FaTruck } from "react-icons/fa";
 import { IoIosPerson } from "react-icons/io";
 import { GiMagnifyingGlass } from "react-icons/gi";

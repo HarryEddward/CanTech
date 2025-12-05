@@ -1,3 +1,4 @@
+/*
 import type { Product } from "@/generated/prisma/client"
 
 
@@ -32,4 +33,4 @@ export const mockProducts: Product[] = [
         createdAt: new Date(),
         updatedAt: new Date()
     },
-]
+]*/

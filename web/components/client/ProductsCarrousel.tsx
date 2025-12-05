@@ -3,7 +3,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion, type PanInfo } from "framer-motion";
 import type { Product } from "@/generated/prisma/client"
-import { mockProducts } from "@/config/client";
+//import { mockProducts } from "@/config/client";
 import Link from "next/link";
 import { urlImageProductPath } from "@/lib/pathImage";
 
