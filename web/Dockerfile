@@ -50,8 +50,6 @@ RUN adduser --system --uid 1001 nextjs
 # --- AQUÍ INSTALAMOS PRISMA GLOBALMENTE ---
 # Instalamos 'prisma' globalmente para tener el comando disponible en el path.
 # Usamos npm (que viene con node) para instalarlo globalmente y luego limpiamos la caché.
-RUN npm install -g prisma
-ENV NODE_PATH=/usr/local/lib/node_modules
 
 COPY --from=builder /app/public ./public
 
