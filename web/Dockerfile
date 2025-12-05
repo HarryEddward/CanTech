@@ -47,12 +47,21 @@ ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+# --- AQUÍ INSTALAMOS PRISMA GLOBALMENTE ---
+# Instalamos 'prisma' globalmente para tener el comando disponible en el path.
+# Usamos npm (que viene con node) para instalarlo globalmente y luego limpiamos la caché.
+RUN npm install -g prisma
+
 COPY --from=builder /app/public ./public
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+COPY --from=builder --chown=nextjs:nodejs /app/prisma.config.ts ./prisma.config.ts
+
 
 USER nextjs
 
