@@ -8,10 +8,10 @@ import Link from "next/link";
 import { urlImageProductPath } from "@/lib/pathImage";
 
 interface IProductsCarrousel {
-    products?: Product[]
+    products: Product[]
 }
 
-export default function ProductsCarrousel({ products = mockProducts }: IProductsCarrousel) {
+export default function ProductsCarrousel({ products /*= mockProducts*/ }: IProductsCarrousel) {
   
   const [rotation, setRotation] = useState(0);
   const [ _, setDragStart] = useState(0);
