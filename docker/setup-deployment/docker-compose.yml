@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  setup-deployment:
+    image: ubuntu:latest
+    tty: true            # Mantiene la terminal abierta
+    stdin_open: true     # Permite interacción (bash)
+    command: sleep infinity   # Evita que el contenedor se detenga
+    volumes:
+      - ./data:/data
+    networks:
+      - dokploy-network
+
+networks:
+  dokploy-network:
+    external: true
+    name: dokploy-network

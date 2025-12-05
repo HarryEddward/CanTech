@@ -17,13 +17,13 @@ interface Characteristic {
 
 interface IPaymentView {
     className?: string;
-    product: Omit<Product, 'characteristics'> & { characteristics: Characteristic[] };
+    product: Product[];
 };
 
 export default function PaymentView({ className = "", product }: IPaymentView) {
   const [isOpen, setIsOpen] = useState(false);
   const [country, setCountry] = useState<SelectMenuOption["value"]>("ES");
-  const finalPrice = (product.price * 1.21).toFixed(2);
+  const finalPrice = (product?.price * 1.21).toFixed(2);
 
   return (
     // Reemplaza el div principal con motion.div
