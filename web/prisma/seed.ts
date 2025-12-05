@@ -15,10 +15,10 @@ async function main() {
     data: [
       /*{
 
-      },
-      { name: "Producto 2", description: "Descripción del producto 2", price: 2000, image: "https://www.cantech.pro/images/products/product_2.webp", stock: 20 },
-      { name: "Producto 3", description: "Descripción del producto 3", price: 8000, image: "https://www.cantech.pro/images/products/product_3.webp", stock: 5 },
-    */
+        },
+        { name: "Producto 2", description: "Descripción del producto 2", price: 2000, image: "https://www.cantech.pro/images/products/product_2.webp", stock: 20 },
+        { name: "Producto 3", description: "Descripción del producto 3", price: 8000, image: "https://www.cantech.pro/images/products/product_3.webp", stock: 5 },
+      */
     ],
     //skipDuplicates: true, // prevents errors if you run the seed multiple times
   });
