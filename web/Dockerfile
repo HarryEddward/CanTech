@@ -64,19 +64,10 @@ COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 # Esto soluciona los conflictos entre npm y pnpm y asegura que el comando 'prisma' exista.
 RUN npm install -g prisma
 
-# 5. Script de arranque
-RUN echo '#!/bin/sh' > /app/start.sh && \
-    echo 'set -e' >> /app/start.sh && \
-    echo 'echo ">>> Ejecutando migraciones de Prisma..."' >> /app/start.sh && \
-    echo 'prisma migrate deploy' >> /app/start.sh && \
-    echo 'echo ">>> Iniciando Next.js..."' >> /app/start.sh && \
-    echo 'exec node server.js' >> /app/start.sh && \
-    chmod +x /app/start.sh
-
 USER nextjs
 
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-CMD ["/app/start.sh"]
+CMD ["/bin/sh", "-c", "prisma migrate deploy && exec node server.js"]
