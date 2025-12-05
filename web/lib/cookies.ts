@@ -1,44 +1,42 @@
 import { setCookie, getCookie, deleteCookie } from 'cookies-next';
-import { OptionsType } from 'cookies-next/lib/types';
+// 1. Importamos OptionsType desde la raíz, no desde /server para evitar conflictos estrictos
+import { OptionsType } from 'cookies-next';
 
-// Nombre constante para evitar errores de dedo
 export const CLIENT_COOKIE_NAME = 'cantech_client_id';
 
-// Configuración por defecto (1 año, HttpOnly, Secure)
-const DEFAULT_OPTIONS: OptionsType = {
+// 2. Usamos Partial<OptionsType> para permitir que falten propiedades
+const DEFAULT_OPTIONS: Partial<OptionsType> = {
   maxAge: 60 * 60 * 24 * 365, // 1 año
   path: '/',
-  // secure: true en producción (https), false en desarrollo
-  secure: process.env.NODE_ENV === 'production', 
+  secure: process.env.NODE_ENV === 'production',
   sameSite: 'strict',
-  // IMPORTANTE: httpOnly evita que el JS del cliente acceda a la cookie (seguridad XSS).
-  // Si necesitas leerla desde JS (Client Components), pon esto en false.
-  // Para un ID de sesión/cliente, true es más seguro, pero si quieres leerla
-  // en el cliente para mostrar "Mis Pedidos", pon false o usa middleware.
-  httpOnly: false, 
+  httpOnly: false,
 };
 
 /**
  * Guarda el ID del cliente en una cookie.
- * Funciona en Server (pasando { cookies }) y Client.
+ * Funciona en Server y Client.
  */
-export const setClientSession = (clientId: string, context?: any) => {
+// 3. Cambiamos el tipo de 'context' a cualquier cosa compatible con opciones o 'any'
+// para evitar el choque entre NextRequest e IncomingMessage.
+export const setClientSession = (clientId: string, context?: Partial<OptionsType>) => {
   setCookie(CLIENT_COOKIE_NAME, clientId, {
     ...DEFAULT_OPTIONS,
-    ...context, // Necesario para Server Actions / API Routes en Next 13+
-  });
+    ...context,
+  } as OptionsType); // 4. Forzamos el tipado aquí con 'as OptionsType'
 };
 
 /**
  * Obtiene el ID del cliente.
  */
-export const getClientSession = (context?: any) => {
-  return getCookie(CLIENT_COOKIE_NAME, context);
+export const getClientSession = (context?: Partial<OptionsType>) => {
+  // El 'as OptionsType' calma a TypeScript sobre la compatibilidad de req/res
+  return getCookie(CLIENT_COOKIE_NAME, context as OptionsType);
 };
 
 /**
  * Cierra la sesión (borra la cookie).
  */
-export const removeClientSession = (context?: any) => {
-  deleteCookie(CLIENT_COOKIE_NAME, context);
+export const removeClientSession = (context?: Partial<OptionsType>) => {
+  deleteCookie(CLIENT_COOKIE_NAME, context as OptionsType);
 };

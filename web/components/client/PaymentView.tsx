@@ -17,7 +17,7 @@ interface Characteristic {
 
 interface IPaymentView {
     className?: string;
-    product: Product[];
+    product: Product;
 };
 
 export default function PaymentView({ className = "", product }: IPaymentView) {

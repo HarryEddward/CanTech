@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, type PanInfo } from "framer-motion";
 import type { Product } from "@/generated/prisma/client"
 import { mockProducts } from "@/config/client";
 import Link from "next/link";
@@ -14,7 +14,7 @@ interface IProductsCarrousel {
 export default function ProductsCarrousel({ products = mockProducts }: IProductsCarrousel) {
   
   const [rotation, setRotation] = useState(0);
-  const [dragStart, setDragStart] = useState(0);
+  const [ _, setDragStart] = useState(0);
 
   const itemsCount = products.length;
   const angleStep = 360 / itemsCount;
@@ -40,7 +40,7 @@ export default function ProductsCarrousel({ products = mockProducts }: IProducts
     return { x, y, scale, opacity, zIndex, isFront, isVisible };
   };
 
-  const handleDragEnd = (event: Event, info: any) => {
+  const handleDragEnd = (event: Event, info: PanInfo) => {
     const dragDistance = info.offset.x;
     const velocity = info.velocity.x;
     const rotationChange = (dragDistance + velocity * 0.1) / 3;

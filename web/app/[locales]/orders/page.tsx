@@ -12,7 +12,6 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import Image from "next/image";
 import { urlImageProductPath } from '@/lib/pathImage';
-import OrderStatus from "@/components/client/OrderStatus";
 import clsx from "clsx";
 
 
