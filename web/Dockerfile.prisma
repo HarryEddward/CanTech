@@ -1,5 +1,5 @@
 # Usamos Node 20 Slim (Ligero y compatible con Prisma moderno)
-FROM node:20-slim
+FROM node:20-slim AS runner
 
 # 1. Instalar dependencias del sistema (OpenSSL es obligatorio para Prisma en Linux)
 RUN apt-get update -y && \
