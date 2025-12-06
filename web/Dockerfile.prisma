@@ -1,0 +1,35 @@
+# Usamos Node 20 Slim (Ligero y compatible con Prisma moderno)
+FROM node:20-slim
+
+# 1. Instalar dependencias del sistema (OpenSSL es obligatorio para Prisma en Linux)
+RUN apt-get update -y && \
+    apt-get install -y openssl ca-certificates procps git && \
+    rm -rf /var/lib/apt/lists/*
+
+# 2. Instalar pnpm globalmente
+RUN npm install -g pnpm
+
+# 3. Directorio de trabajo
+WORKDIR /app
+
+# 4. OPTIMIZACIÓN: Copiamos solo los archivos de dependencias primero.
+# Esto permite a Docker usar la caché si no has cambiado dependencias.
+COPY package.json pnpm-lock.yaml ./
+
+# Instalar dependencias
+RUN pnpm install --frozen-lockfile
+
+# 5. Generar el cliente de Prisma (Vital para que Studio funcione)
+# Copiamos primero la carpeta prisma para poder generar el cliente
+COPY prisma ./prisma
+RUN npx prisma generate
+
+# 6. Copiamos el resto del código fuente
+COPY . .
+
+# 7. Exponer el puerto
+EXPOSE 5555
+
+# 8. COMANDO DE ARRANQUE
+# Importante: --hostname 0.0.0.0 permite acceder desde fuera del contenedor
+CMD ["npx", "prisma", "studio", "--hostname", "0.0.0.0", "--port", "5555"]

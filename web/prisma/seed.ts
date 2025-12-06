@@ -13,6 +13,7 @@ async function main() {
   // Create multiple users
   await prisma.product.createMany({
     data: [
+      
       /*{
 
         },
